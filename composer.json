@@ -1,0 +1,27 @@
+{
+    "name": "mullinsmikey/laravel-gatekeeper",
+    "description": "Protect pages from access with a universal username/password",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Mullins",
+            "email": "dev-github-laravel-gatekeeper@muffin.blue"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Muffin\\GateKeeper\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Muffin\\GateKeeper\\GateKeeperServiceProvider"
+            ]
+        }
+    }
+}
