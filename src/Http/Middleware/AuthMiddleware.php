@@ -48,7 +48,7 @@ class AuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $orig_hash = encrypt([$this->username, $this->password, md5(config('app.key'))]);
+        $orig_hash = md5(serialize([$this->username, $this->password, config('app.key')]));
 
         $existing = array_get($_COOKIE, $this->cookieid, false);
         if (!empty($existing) && $existing !== false) {
@@ -61,7 +61,7 @@ class AuthMiddleware
             $username = empty($request->get('username')) ? '' : $request->get('username');
             $password = empty($request->get('password')) ? '' : $request->get('password');
 
-            $input_hash = encrypt([$username, $password, md5(config('app.key'))]);
+            $input_hash = md5(serialize([$username, $password, config('app.key')]));
             if ($input_hash === $orig_hash) {
                 setcookie($this->cookieid, $input_hash, time() + $this->authtime, '/');
                 return redirect($request->url());
