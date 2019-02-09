@@ -3,6 +3,7 @@
     "description": "Protect pages from access with a universal username/password",
     "type": "library",
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Michael Mullins",

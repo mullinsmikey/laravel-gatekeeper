@@ -35,7 +35,7 @@ class AuthMiddleware
     {
         $this->username = empty(config('gatekeeper.username')) ? '' : config('gatekeeper.username');
         $this->password = empty(config('gatekeeper.password')) ? '' : config('gatekeeper.password');
-        $this->cookieid = str_slug(config('name'), '_').'_gateid';
+        $this->cookieid = strtolower(config('app.name')).'_gk';
         $this->authtime = empty(config('gatekeeper.authtime')) ? '' : config('gatekeeper.authtime');
     }
 
@@ -48,11 +48,10 @@ class AuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        // $this->pseudoConstruct();
-        $orig_hash = $this->makeCredentials($this->username, $this->password);
+        $orig_hash = encrypt([$this->username, $this->password, md5(config('app.key'))]);
 
         $existing = array_get($_COOKIE, $this->cookieid, false);
-        if ($existing !== false) {
+        if (!empty($existing) && $existing !== false) {
             if ($existing === $orig_hash) {
                 return $next($request);
             } else {
@@ -62,7 +61,7 @@ class AuthMiddleware
             $username = empty($request->get('username')) ? '' : $request->get('username');
             $password = empty($request->get('password')) ? '' : $request->get('password');
 
-            $input_hash = $this->makeCredentials($username, $password);
+            $input_hash = encrypt([$username, $password, md5(config('app.key'))]);
             if ($input_hash === $orig_hash) {
                 setcookie($this->cookieid, $input_hash, time() + $this->authtime, '/');
                 return redirect($request->url());
@@ -92,27 +91,4 @@ class AuthMiddleware
     {
         return response(view(config('gatekeeper.authview')), 403);
     }
-
-    /**
-     * Hash credentials.
-     *
-     * @param string $username
-     * @param string $password
-     * @return string
-     */
-    protected function makeCredentials($username, $password)
-    {
-        $key = serialize(array(
-            'username' => $username, 'password' => $password
-        ));
-        return md5($key);
-    }
-
-    /**
-     * Constructor
-     * @return void
-     */
-    // protected function pseudoConstruct()
-    // {
-    // }
 }
