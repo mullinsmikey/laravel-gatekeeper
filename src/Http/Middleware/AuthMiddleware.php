@@ -4,6 +4,10 @@ namespace Muffin\GateKeeper\Http\Middleware;
 
 use Closure;
 
+/**
+ * Class AuthMiddleware
+ * @package Muffin\GateKeeper\Http\Middleware
+ */
 class AuthMiddleware
 {
     /**
@@ -54,8 +58,6 @@ class AuthMiddleware
         if (!empty($existing) && $existing !== false) {
             if ($existing === $orig_hash) {
                 return $next($request);
-            } else {
-                return $this->showAuth();
             }
         } else {
             $username = empty($request->get('username')) ? '' : $request->get('username');
@@ -65,30 +67,19 @@ class AuthMiddleware
             if ($input_hash === $orig_hash) {
                 setcookie($this->cookieid, $input_hash, time() + $this->authtime, '/');
                 return redirect($request->url());
-            } else {
-                return $this->showAuth();
             }
         }
+        return response()->view(config('gatekeeper.authview'));
     }
 
     /**
      * Handle logout.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function logout()
     {
         setcookie($this->cookieid, '', time() - $this->authtime, '/');
-        return $this->showAuth();
-    }
-
-    /**
-     * Redirect to login form.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    protected function showAuth()
-    {
-        return response(view(config('gatekeeper.authview')), 403);
+        return redirect('/');
     }
 }

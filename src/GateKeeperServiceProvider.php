@@ -4,6 +4,10 @@ namespace Muffin\GateKeeper;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class GateKeeperServiceProvider
+ * @package Muffin\GateKeeper
+ */
 class GateKeeperServiceProvider extends ServiceProvider
 {
     /**
@@ -14,7 +18,7 @@ class GateKeeperServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/gatekeeper.php' => config_path('gatekeeper.php'),
+            __DIR__.'/../config/gatekeeper.php' => config_path('gatekeeper.php')
         ]);
     }
 

@@ -11,5 +11,5 @@ return [
      * View blade with the login form
      */
     'authview' => env('GATE_VIEW', 'login'),
-    'authtime' => env('GATE_TIME', 86400),
+    'authtime' => env('GATE_TIME', 86400)
 ];
