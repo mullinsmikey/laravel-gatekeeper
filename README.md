@@ -5,6 +5,8 @@ Protect pages from access with a universal username/password
 [![Top Languages](https://img.shields.io/github/languages/top/mullinsmikey/laravel-gatekeeper.svg?style=flat)](../../search?l=php)
 [![Software License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.md)
 [![Last Commit](https://img.shields.io/github/last-commit/mullinsmikey/laravel-gatekeeper.svg?style=flat)](../../commits)
+![](https://img.shields.io/packagist/v/mullinsmikey/laravel-gatekeeper.svg?style=flat)
+![](https://img.shields.io/packagist/dt/mullinsmikey/laravel-gatekeeper.svg?style=flat)
 
 ## Requirements
 
